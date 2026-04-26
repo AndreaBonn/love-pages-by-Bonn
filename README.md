@@ -6,6 +6,8 @@ A GitHub Pages template that displays a seasonal romantic question to your partn
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+![Demo](assets/screenshots/demo-generic.png)
+
 ---
 
 ## What it does
@@ -27,6 +29,18 @@ The page adapts its colors, particles, and question text to 9 calendar events:
 | Generic (fallback) | All year | "Do you want to be mine?" |
 
 Each event has its own color theme, emoji, and animated background particles (hearts, snowflakes, pumpkins, clovers, etc.).
+
+| Valentine's Day | Halloween | Christmas |
+|:---:|:---:|:---:|
+| ![Valentine](assets/screenshots/demo-valentine.png) | ![Halloween](assets/screenshots/demo-halloween.png) | ![Christmas](assets/screenshots/demo-christmas.png) |
+
+The "No" button runs away every time you try to click it:
+
+![No button demo](assets/screenshots/demo-no-button.gif)
+
+When your partner clicks "Yes", a confetti explosion reveals your photo and message:
+
+![Modal](assets/screenshots/demo-modal.png)
 
 ---
 

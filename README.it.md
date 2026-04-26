@@ -6,6 +6,8 @@ Un template GitHub Pages che mostra una domanda romantica stagionale al tuo part
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+![Demo](assets/screenshots/demo-generic.png)
+
 ---
 
 ## Cosa fa
@@ -27,6 +29,18 @@ La pagina adatta colori, particelle e testo della domanda a 9 eventi del calenda
 | Generico (fallback) | Tutto l'anno | "Vuoi essere mio/mia?" |
 
 Ogni evento ha il suo tema colori, la sua emoji e le sue particelle animate di sfondo (cuori, fiocchi di neve, zucche, trifogli, ecc.).
+
+| San Valentino | Halloween | Natale |
+|:---:|:---:|:---:|
+| ![Valentine](assets/screenshots/demo-valentine.png) | ![Halloween](assets/screenshots/demo-halloween.png) | ![Christmas](assets/screenshots/demo-christmas.png) |
+
+Il bottone "No" scappa ogni volta che provi a cliccarlo:
+
+![Demo bottone No](assets/screenshots/demo-no-button.gif)
+
+Quando il tuo partner clicca "Sì", un'esplosione di coriandoli rivela la tua foto e il tuo messaggio:
+
+![Modal](assets/screenshots/demo-modal.png)
 
 ---
 
