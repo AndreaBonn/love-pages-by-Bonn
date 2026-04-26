@@ -4,7 +4,14 @@
 
 A GitHub Pages template that displays a seasonal romantic question to your partner. Fork it, edit one file, deploy in 5 minutes. Zero dependencies, works offline.
 
+<div align="center">
+
+[![CI](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml/badge.svg)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/AndreaBonn/love-pages-by-Bonn/main/badges/test-badge.json)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Security Policy](https://img.shields.io/badge/security-policy-blueviolet.svg)](SECURITY.md)
+
+</div>
 
 ![Demo](assets/screenshots/demo-generic.png)
 
