@@ -21,6 +21,8 @@ Crea una pagina romantica personalizzata per il tuo partner in meno di 2 minuti.
 
 Love Pages by Bonn genera una pagina a schermo intero con una domanda animata che cambia in base al periodo dell'anno. Il tuo partner può cliccare "Sì" (si apre un popup con la tua foto e un messaggio personalizzato) oppure "No" (che scappa dal cursore e non può mai essere cliccato).
 
+![Esempio pagina generata](./docs/assets/generated-page.png)
+
 La pagina adatta colori, particelle e testo della domanda a 9 eventi del calendario:
 
 | Evento | Periodo | Domanda |
@@ -94,6 +96,8 @@ Vai sul sito di Love Pages e vedrai il modulo di configurazione.
 - **Domanda personalizzata** (opzionale): scrivi la tua domanda invece di quella automatica
 - **Messaggio**: il testo mostrato dopo che il tuo partner clicca "Sì"
 
+![Modulo configuratore](./docs/assets/configurator-form.png)
+
 ### Passo 3 -- Aggiungi una foto
 
 Hai due opzioni:
@@ -113,6 +117,8 @@ La foto è opzionale. Se la salti, verrà mostrata un'emoji cuore al suo posto.
 
 - Clicca **Copia link** per copiarlo negli appunti
 - Oppure clicca **WhatsApp** / **Telegram** per inviarlo direttamente
+
+![Risultato con bottoni di condivisione](./docs/assets/configurator-result.png)
 
 Tutto qui. Il tuo partner apre il link e vede la pagina con i vostri nomi, la tua domanda e la tua foto.
 
