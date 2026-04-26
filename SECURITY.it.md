@@ -29,7 +29,7 @@ La segnalazione dovrebbe includere:
 
 ## Misure di sicurezza implementate
 
-LovePage è un sito statico senza codice server-side, senza database, senza autenticazione e senza richieste di rete esterne. La superficie di attacco è limitata al codice client-side che gira nel browser.
+Love Pages by Bonn è un sito statico senza codice server-side, senza database, senza autenticazione e senza richieste di rete esterne. La superficie di attacco è limitata al codice client-side che gira nel browser.
 
 Le seguenti misure sono implementate:
 

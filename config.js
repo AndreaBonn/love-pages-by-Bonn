@@ -37,6 +37,6 @@ window.LOVEPAGE_CONFIG = {
   theme: null,
 
   // --- FOOTER ---
-  // Show/hide the "Made with LovePage" footer
+  // Show/hide the "Made with Love Pages by Bonn" footer
   showFooter: true,
 };

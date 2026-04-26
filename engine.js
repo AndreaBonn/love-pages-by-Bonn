@@ -189,7 +189,7 @@
       popupTitle: "Yes, {partnerName}!",
       closeButton: "Close",
       footerText: "Made with",
-      footerLink: "LovePage",
+      footerLink: "Love Pages by Bonn",
     },
     it: {
       yesButton: "S\u00EC!",
@@ -197,7 +197,7 @@
       popupTitle: "S\u00EC, {partnerName}!",
       closeButton: "Chiudi",
       footerText: "Fatto con",
-      footerLink: "LovePage",
+      footerLink: "Love Pages by Bonn",
     },
   };
 

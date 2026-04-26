@@ -1,6 +1,6 @@
 [English](README.md) | **Italiano**
 
-# LovePage
+# Love Pages by Bonn
 
 Un template GitHub Pages che mostra una domanda romantica stagionale al tuo partner. Fai il fork, modifica un file, pubblica in 5 minuti. Zero dipendenze, funziona offline.
 
@@ -10,7 +10,7 @@ Un template GitHub Pages che mostra una domanda romantica stagionale al tuo part
 
 ## Cosa fa
 
-LovePage genera una pagina a schermo intero con una domanda animata che cambia in base al periodo dell'anno. Il tuo partner può cliccare "Sì" (si apre un popup con la tua foto e un messaggio personalizzato) oppure "No" (che scappa dal cursore e non può mai essere cliccato).
+Love Pages by Bonn genera una pagina a schermo intero con una domanda animata che cambia in base al periodo dell'anno. Il tuo partner può cliccare "Sì" (si apre un popup con la tua foto e un messaggio personalizzato) oppure "No" (che scappa dal cursore e non può mai essere cliccato).
 
 La pagina adatta colori, particelle e testo della domanda a 9 eventi del calendario:
 

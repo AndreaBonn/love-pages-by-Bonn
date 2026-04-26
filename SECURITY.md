@@ -29,7 +29,7 @@ Your report should include:
 
 ## Security measures implemented
 
-LovePage is a static website with no server-side code, no database, no authentication, and no external network requests. The attack surface is limited to the client-side code that runs in the browser.
+Love Pages by Bonn is a static website with no server-side code, no database, no authentication, and no external network requests. The attack surface is limited to the client-side code that runs in the browser.
 
 The following measures are implemented:
 
