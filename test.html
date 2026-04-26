@@ -38,6 +38,7 @@
 
   <script src="config.js"></script>
   <script src="engine.js"></script>
+  <script src="codec.js"></script>
   <script>
     (function () {
       var results = document.getElementById("results");
@@ -808,6 +809,199 @@
           typeof event.label.it === "string" && event.label.it.length > 0
         );
       });
+
+      // ── Codec: encodeConfig / decodeConfig round-trip ──────────
+
+      var C = window.__LOVEPAGE_CODEC__;
+
+      suite("Codec: encode/decode round-trip");
+
+      // Basic round-trip
+      var basic = { y: "Marco", p: "Laura", l: "en", m: "Ti amo" };
+      var encoded = C.encodeConfig(basic);
+      var decoded = C.decodeConfig("#" + encoded);
+
+      assertEqual(
+        "basic round-trip preserves yourName",
+        decoded.y,
+        "Marco"
+      );
+
+      assertEqual(
+        "basic round-trip preserves partnerName",
+        decoded.p,
+        "Laura"
+      );
+
+      assertEqual(
+        "basic round-trip preserves message",
+        decoded.m,
+        "Ti amo"
+      );
+
+      // Unicode characters (accented, emoji)
+      var unicode = { y: "Ren\u00E9", p: "Fran\u00E7oise", m: "Je t'aime \u2764\uFE0F" };
+      var unicodeDecoded = C.decodeConfig("#" + C.encodeConfig(unicode));
+
+      assertEqual(
+        "unicode round-trip preserves accented name",
+        unicodeDecoded.y,
+        "Ren\u00E9"
+      );
+
+      assertEqual(
+        "unicode round-trip preserves cedilla",
+        unicodeDecoded.p,
+        "Fran\u00E7oise"
+      );
+
+      assertEqual(
+        "unicode round-trip preserves emoji in message",
+        unicodeDecoded.m,
+        "Je t'aime \u2764\uFE0F"
+      );
+
+      // Japanese characters
+      var japanese = { y: "\u592A\u90CE", p: "\u82B1\u5B50", m: "\u611B\u3057\u3066\u308B" };
+      var japaneseDecoded = C.decodeConfig("#" + C.encodeConfig(japanese));
+
+      assertEqual(
+        "japanese round-trip preserves names",
+        japaneseDecoded.y,
+        "\u592A\u90CE"
+      );
+
+      assertEqual(
+        "japanese round-trip preserves message",
+        japaneseDecoded.m,
+        "\u611B\u3057\u3066\u308B"
+      );
+
+      // All config fields
+      var full = {
+        y: "Romeo", p: "Giulietta", l: "it",
+        ph: "https://example.com/photo.jpg",
+        m: "Sei tutto per me",
+        e: "valentine", q: "Vuoi sposarmi?", t: "dark"
+      };
+      var fullDecoded = C.decodeConfig("#" + C.encodeConfig(full));
+
+      assertEqual("full config round-trip: event", fullDecoded.e, "valentine");
+      assertEqual("full config round-trip: question", fullDecoded.q, "Vuoi sposarmi?");
+      assertEqual("full config round-trip: theme", fullDecoded.t, "dark");
+      assertEqual("full config round-trip: photo", fullDecoded.ph, "https://example.com/photo.jpg");
+
+      // Minimal config (only required fields)
+      var minimal = { y: "A", p: "B" };
+      var minimalDecoded = C.decodeConfig("#" + C.encodeConfig(minimal));
+
+      assertEqual("minimal config round-trip: y", minimalDecoded.y, "A");
+      assertEqual("minimal config round-trip: p", minimalDecoded.p, "B");
+
+      // Empty values
+      var empty = {};
+      var emptyDecoded = C.decodeConfig("#" + C.encodeConfig(empty));
+
+      assert(
+        "empty config round-trip returns object",
+        emptyDecoded !== null && typeof emptyDecoded === "object"
+      );
+
+      // Special characters in strings
+      var special = { y: 'Tom & "Jerry"', m: "line1\nline2", p: "O'Brien" };
+      var specialDecoded = C.decodeConfig("#" + C.encodeConfig(special));
+
+      assertEqual("special chars: ampersand and quotes", specialDecoded.y, 'Tom & "Jerry"');
+      assertEqual("special chars: newline", specialDecoded.m, "line1\nline2");
+      assertEqual("special chars: apostrophe", specialDecoded.p, "O'Brien");
+
+      suite("Codec: decodeConfig edge cases");
+
+      assertEqual("null hash returns null", C.decodeConfig(null), null);
+      assertEqual("empty string returns null", C.decodeConfig(""), null);
+      assertEqual("hash-only returns null", C.decodeConfig("#"), null);
+      assertEqual("invalid base64 returns null", C.decodeConfig("#!!!invalid!!!"), null);
+      assertEqual("non-JSON base64 returns null", C.decodeConfig("#" + btoa("not json")), null);
+
+      suite("Codec: encodeConfig produces URL-safe output");
+
+      var urlSafe = C.encodeConfig({ y: "Test+/=", p: "Data" });
+
+      assert(
+        "no '+' in encoded output",
+        urlSafe.indexOf("+") === -1
+      );
+
+      assert(
+        "no '/' in encoded output",
+        urlSafe.indexOf("/") === -1
+      );
+
+      assert(
+        "no '=' in encoded output",
+        urlSafe.indexOf("=") === -1
+      );
+
+      suite("Codec: expandConfig");
+
+      var expanded = C.expandConfig({ y: "Marco", p: "Laura", l: "it" });
+
+      assertEqual("expandConfig maps y to yourName", expanded.yourName, "Marco");
+      assertEqual("expandConfig maps p to partnerName", expanded.partnerName, "Laura");
+      assertEqual("expandConfig maps l to language", expanded.language, "it");
+      assertEqual("expandConfig defaults successPhoto to empty", expanded.successPhoto, "");
+      assertEqual("expandConfig defaults forceEvent to null", expanded.forceEvent, null);
+      assertEqual("expandConfig defaults theme to null", expanded.theme, null);
+      assert("expandConfig sets showFooter to true", expanded.showFooter === true);
+
+      var expandedFull = C.expandConfig({
+        y: "A", p: "B", l: "en", ph: "https://example.com/img.jpg",
+        m: "msg", e: "halloween", q: "Boo?", t: "dark"
+      });
+
+      assertEqual("expandConfig maps ph to successPhoto", expandedFull.successPhoto, "https://example.com/img.jpg");
+      assertEqual("expandConfig maps e to forceEvent", expandedFull.forceEvent, "halloween");
+      assertEqual("expandConfig maps q to customQuestion", expandedFull.customQuestion, "Boo?");
+      assertEqual("expandConfig maps t to theme", expandedFull.theme, "dark");
+
+      assertEqual("expandConfig(null) returns null", C.expandConfig(null), null);
+
+      suite("Codec: URL sanitization in expandConfig");
+
+      var withJsUrl = C.expandConfig({ y: "A", p: "B", ph: "javascript:alert(1)" });
+      assertEqual(
+        "javascript: URL is stripped from successPhoto",
+        withJsUrl.successPhoto,
+        ""
+      );
+
+      var withDataUrl = C.expandConfig({ y: "A", p: "B", ph: "data:image/png;base64,abc" });
+      assertEqual(
+        "data: URL is stripped from successPhoto",
+        withDataUrl.successPhoto,
+        ""
+      );
+
+      var withHttpsUrl = C.expandConfig({ y: "A", p: "B", ph: "https://example.com/photo.jpg" });
+      assertEqual(
+        "https: URL is preserved in successPhoto",
+        withHttpsUrl.successPhoto,
+        "https://example.com/photo.jpg"
+      );
+
+      var withHttpUrl = C.expandConfig({ y: "A", p: "B", ph: "http://example.com/photo.jpg" });
+      assertEqual(
+        "http: URL is preserved in successPhoto",
+        withHttpUrl.successPhoto,
+        "http://example.com/photo.jpg"
+      );
+
+      var withEmptyPhoto = C.expandConfig({ y: "A", p: "B" });
+      assertEqual(
+        "missing photo defaults to empty string",
+        withEmptyPhoto.successPhoto,
+        ""
+      );
 
       // ── Summary ────────────────────────────────────────────────
 

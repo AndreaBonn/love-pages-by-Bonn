@@ -3,53 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Love Pages by Bonn</title>
-  <meta name="description" content="Someone has a special question for you">
+  <title>Love Pages by Bonn — Create your Love Page</title>
+  <meta name="description" content="Create a personalized romantic page for your partner. No coding required.">
 
-  <!-- Open Graph (static defaults — update for social sharing) -->
-  <meta property="og:title" id="lp-og-title" content="A question for you">
-  <meta property="og:description" id="lp-og-description" content="Someone has a special question for you">
-  <meta property="og:image" id="lp-og-image" content="assets/photos/example.jpg">
+  <meta property="og:title" content="Love Pages by Bonn">
+  <meta property="og:description" content="Create a personalized romantic page for your partner">
   <meta property="og:type" content="website">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="create.css">
 </head>
 <body>
 
-  <!-- Background particles -->
-  <div id="lp-particles" class="lp-particles" aria-hidden="true"></div>
+  <!-- Language switcher -->
+  <div class="cr-lang">
+    <select id="cr-ui-lang" aria-label="Language">
+      <option value="en">EN</option>
+      <option value="it">IT</option>
+    </select>
+  </div>
 
-  <!-- Main content -->
-  <main class="lp-container">
-    <div id="lp-header" class="lp-header" aria-label="From and to"></div>
+  <!-- Header -->
+  <header class="cr-header">
+    <h1 data-i18n="title">Create your Love Page</h1>
+    <p data-i18n="subtitle">Fill in the fields, get a unique link to send to your partner</p>
+    <p style="margin-top:0.5rem"><a href="demo/" data-i18n="demoLink">See a demo</a></p>
+  </header>
 
-    <div id="lp-emoji" class="lp-emoji" aria-hidden="true"></div>
+  <!-- Form -->
+  <main class="cr-main">
+    <form class="cr-form" id="cr-form" novalidate>
 
-    <h1 id="lp-question" class="lp-question"></h1>
+      <!-- Your name -->
+      <div class="cr-field">
+        <label for="cr-your-name" data-i18n="labelYourName">Your name</label>
+        <input type="text" id="cr-your-name" maxlength="50" autocomplete="given-name" required>
+      </div>
 
-    <div class="lp-buttons">
-      <button id="lp-btn-yes" class="lp-btn lp-btn-yes" type="button" aria-label="Yes"></button>
-      <button id="lp-btn-no" class="lp-btn lp-btn-no" type="button" aria-label="No"></button>
+      <!-- Partner name -->
+      <div class="cr-field">
+        <label for="cr-partner-name" data-i18n="labelPartnerName">Your partner's name</label>
+        <input type="text" id="cr-partner-name" maxlength="50" autocomplete="off" required>
+      </div>
+
+      <!-- Page language -->
+      <div class="cr-field">
+        <label for="cr-page-lang" data-i18n="labelLanguage">Page language</label>
+        <select id="cr-page-lang">
+          <option value="en" data-i18n="langEn">English</option>
+          <option value="it" data-i18n="langIt">Italiano</option>
+        </select>
+      </div>
+
+      <!-- Event -->
+      <div class="cr-field">
+        <label for="cr-event" data-i18n="labelEvent">Event / occasion</label>
+        <select id="cr-event"></select>
+      </div>
+
+      <!-- Theme -->
+      <div class="cr-field">
+        <label for="cr-theme" data-i18n="labelTheme">Color theme</label>
+        <select id="cr-theme"></select>
+      </div>
+
+      <hr class="cr-separator">
+
+      <!-- Custom question -->
+      <div class="cr-field">
+        <label for="cr-question" data-i18n="labelCustomQuestion">Custom question (optional)</label>
+        <span class="cr-hint" data-i18n="hintCustomQuestion">Leave empty to use the automatic question for the event</span>
+        <input type="text" id="cr-question" maxlength="120">
+      </div>
+
+      <!-- Success message -->
+      <div class="cr-field">
+        <label for="cr-message" data-i18n="labelSuccessMessage">Message shown after "Yes"</label>
+        <textarea id="cr-message" maxlength="300" rows="2"></textarea>
+      </div>
+
+      <hr class="cr-separator">
+
+      <!-- Photo -->
+      <div class="cr-field">
+        <label data-i18n="labelPhoto">Photo (shown after "Yes")</label>
+
+        <div class="cr-photo-tabs">
+          <button type="button" class="cr-photo-tab cr-active" data-tab="url" data-i18n="photoTabUrl">Paste URL</button>
+          <button type="button" class="cr-photo-tab" data-tab="upload" data-i18n="photoTabUpload">Upload</button>
+        </div>
+
+        <!-- URL panel -->
+        <div id="cr-photo-url-panel" class="cr-photo-panel cr-active" data-tab="url">
+          <input type="url" id="cr-photo-url" data-i18n-attr="placeholder" data-i18n="photoUrlPlaceholder">
+          <span class="cr-hint" data-i18n="photoUrlHint">Direct link to an image (jpg, png, webp)</span>
+        </div>
+
+        <!-- Upload panel -->
+        <div id="cr-photo-upload" class="cr-photo-panel" data-tab="upload">
+          <div id="cr-upload-area" class="cr-upload-area">
+            <div class="cr-upload-icon">&#x1F4F7;</div>
+            <div class="cr-upload-text" data-i18n="uploadText">Click or drag a photo here</div>
+            <div class="cr-hint" data-i18n="uploadHint">Max 5 MB — jpg, png, webp</div>
+            <input type="file" id="cr-file-input" accept="image/jpeg,image/png,image/webp" hidden>
+          </div>
+          <div id="cr-upload-status" class="cr-upload-status"></div>
+        </div>
+
+        <div id="cr-photo-warning" class="cr-photo-warning" data-i18n="photoWarning"></div>
+      </div>
+
+      <hr class="cr-separator">
+
+      <!-- Actions -->
+      <div class="cr-actions">
+        <button type="button" id="cr-btn-preview" class="cr-btn cr-btn-secondary" data-i18n="btnPreview">Preview</button>
+        <button type="button" id="cr-btn-create" class="cr-btn cr-btn-primary" data-i18n="btnCreate">Create your Love Page</button>
+      </div>
+    </form>
+
+    <!-- Result -->
+    <div id="cr-result" class="cr-result">
+      <h2 data-i18n="resultTitle">Your Love Page is ready!</h2>
+      <input type="text" id="cr-result-url" class="cr-result-url" readonly>
+      <div class="cr-share-buttons">
+        <button type="button" id="cr-btn-copy" class="cr-share-btn" data-i18n="btnCopy">Copy link</button>
+        <button type="button" id="cr-btn-whatsapp" class="cr-share-btn">&#x1F4AC; <span data-i18n="btnWhatsapp">WhatsApp</span></button>
+        <button type="button" id="cr-btn-telegram" class="cr-share-btn">&#x2708;&#xFE0F; <span data-i18n="btnTelegram">Telegram</span></button>
+      </div>
     </div>
   </main>
 
-  <!-- Success Modal -->
-  <div id="lp-modal" class="lp-overlay" role="dialog" aria-modal="true" aria-labelledby="lp-modal-title" aria-hidden="true">
-    <div class="lp-modal">
-      <h2 id="lp-modal-title" class="lp-modal-title"></h2>
-      <img id="lp-modal-photo" class="lp-modal-photo" src="" alt="Our photo">
-      <div id="lp-modal-photo-fallback" class="lp-modal-photo-fallback" style="display:none" aria-hidden="true"></div>
-      <p id="lp-modal-message" class="lp-modal-message"></p>
-      <button id="lp-modal-close" class="lp-modal-close" type="button"></button>
-    </div>
-  </div>
-
   <!-- Footer -->
-  <footer id="lp-footer" class="lp-footer"></footer>
+  <footer class="cr-footer">
+    Made with <a href="https://github.com/AndreaBonn/love-pages-by-Bonn">Love Pages by Bonn</a>
+  </footer>
 
-  <!-- Config MUST load before engine -->
-  <script src="config.js"></script>
-  <script src="engine.js"></script>
+  <script src="codec.js"></script>
+  <script src="create.js"></script>
 </body>
 </html>

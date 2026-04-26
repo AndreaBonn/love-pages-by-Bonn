@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Pages by Bonn</title>
+  <meta name="description" content="Someone has a special question for you">
+
+  <meta property="og:title" id="lp-og-title" content="A question for you">
+  <meta property="og:description" id="lp-og-description" content="Someone has a special question for you">
+  <meta property="og:image" id="lp-og-image" content="">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <div id="lp-particles" class="lp-particles" aria-hidden="true"></div>
+
+  <main class="lp-container">
+    <div id="lp-header" class="lp-header" aria-label="From and to"></div>
+    <div id="lp-emoji" class="lp-emoji" aria-hidden="true"></div>
+    <h1 id="lp-question" class="lp-question"></h1>
+    <div class="lp-buttons">
+      <button id="lp-btn-yes" class="lp-btn lp-btn-yes" type="button" aria-label="Yes"></button>
+      <button id="lp-btn-no" class="lp-btn lp-btn-no" type="button" aria-label="No"></button>
+    </div>
+  </main>
+
+  <div id="lp-modal" class="lp-overlay" role="dialog" aria-modal="true" aria-labelledby="lp-modal-title" aria-hidden="true">
+    <div class="lp-modal">
+      <h2 id="lp-modal-title" class="lp-modal-title"></h2>
+      <img id="lp-modal-photo" class="lp-modal-photo" src="" alt="Our photo">
+      <div id="lp-modal-photo-fallback" class="lp-modal-photo-fallback" style="display:none" aria-hidden="true"></div>
+      <p id="lp-modal-message" class="lp-modal-message"></p>
+      <button id="lp-modal-close" class="lp-modal-close" type="button"></button>
+    </div>
+  </div>
+
+  <footer id="lp-footer" class="lp-footer"></footer>
+
+  <script src="../codec.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var codec = window.__LOVEPAGE_CODEC__;
+      var compact = codec.decodeConfig(window.location.hash);
+
+      if (!compact) {
+        document.body.innerHTML =
+          '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;text-align:center;padding:2rem">' +
+          '<div><h1 style="font-size:3rem;margin-bottom:1rem">&#x1F494;</h1>' +
+          '<p style="font-size:1.2rem;color:#666">This link appears to be invalid or incomplete.</p>' +
+          '<p style="margin-top:1rem"><a href="../" style="color:#6c63ff">Create your own Love Page</a></p>' +
+          '</div></div>';
+        return;
+      }
+
+      window.LOVEPAGE_CONFIG = codec.expandConfig(compact);
+      document.documentElement.lang = compact.l || "en";
+
+      var script = document.createElement("script");
+      script.src = "../engine.js";
+      document.body.appendChild(script);
+    })();
+  </script>
+</body>
+</html>
