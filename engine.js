@@ -201,7 +201,7 @@
     },
   };
 
-  var REPO_URL = "https://github.com/AndreaBonn/lovepage";
+  var REPO_URL = "https://github.com/AndreaBonn/love-pages-by-Bonn";
 
   // ── Config Reading ───────────────────────────────────────────────
 

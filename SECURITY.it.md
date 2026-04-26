@@ -10,7 +10,7 @@
 
 ## Segnalare una vulnerabilità
 
-Se trovi una vulnerabilità di sicurezza in questo progetto, segnalala tramite [GitHub Security Advisories](https://github.com/AndreaBonn/lovepage/security/advisories/new).
+Se trovi una vulnerabilità di sicurezza in questo progetto, segnalala tramite [GitHub Security Advisories](https://github.com/AndreaBonn/love-pages-by-Bonn/security/advisories/new).
 
 Non aprire una issue pubblica per vulnerabilità di sicurezza.
 

@@ -10,7 +10,7 @@
 
 ## Reporting a vulnerability
 
-If you find a security vulnerability in this project, report it through [GitHub Security Advisories](https://github.com/AndreaBonn/lovepage/security/advisories/new).
+If you find a security vulnerability in this project, report it through [GitHub Security Advisories](https://github.com/AndreaBonn/love-pages-by-Bonn/security/advisories/new).
 
 Do not open a public issue for security vulnerabilities.
 
