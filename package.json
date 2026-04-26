@@ -5,6 +5,7 @@
   "description": "Create a personalized romantic page for your partner",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^9.39.4",
     "playwright": "1.59.1",
     "serve": "14.2.4"
   }

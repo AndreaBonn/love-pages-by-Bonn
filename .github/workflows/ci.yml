@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint
+        run: npx eslint codec.js config.js engine.js create.js
+
       - name: Install Playwright browser
         run: npx playwright install chromium --with-deps
 
