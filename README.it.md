@@ -96,7 +96,7 @@ successMessage: "Il tuo messaggio qui",  // Il messaggio mostrato dopo aver clic
 Dopo circa 60 secondi, la tua pagina sarà online all'indirizzo:
 
 ```
-https://TUO-USERNAME.github.io/lovepage/
+https://TUO-USERNAME.github.io/love-pages-by-Bonn/
 ```
 
 Sostituisci `TUO-USERNAME` con il tuo username GitHub effettivo. Invia questo link al tuo partner.

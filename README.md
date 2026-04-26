@@ -96,7 +96,7 @@ successMessage: "Your message here",   // The message shown after clicking Yes
 After about 60 seconds, your page will be live at:
 
 ```
-https://YOUR-USERNAME.github.io/lovepage/
+https://YOUR-USERNAME.github.io/love-pages-by-Bonn/
 ```
 
 Replace `YOUR-USERNAME` with your actual GitHub username. Send this link to your partner.
