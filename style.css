@@ -154,27 +154,8 @@ body {
   z-index: 10;
 }
 
-.lp-btn-no--disabled {
-  pointer-events: none;
-  opacity: 0.4;
-}
-
 .lp-btn-no--hidden {
   display: none;
-}
-
-/* --- No Button Tooltip (mobile) --- */
-
-.lp-no-tooltip {
-  display: none;
-  font-size: 0.8rem;
-  color: var(--lp-accent);
-  opacity: 0.7;
-  margin-top: -0.5rem;
-}
-
-.lp-no-tooltip--visible {
-  display: block;
 }
 
 /* --- Modal Overlay --- */

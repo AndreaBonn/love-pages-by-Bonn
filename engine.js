@@ -186,7 +186,6 @@
     en: {
       yesButton: "Yes!",
       noButton: "No",
-      noTooltipMobile: "This button doesn't work",
       popupTitle: "Yes, {partnerName}!",
       closeButton: "Close",
       footerText: "Made with",
@@ -195,7 +194,6 @@
     it: {
       yesButton: "S\u00EC!",
       noButton: "No",
-      noTooltipMobile: "Questo bottone non funziona",
       popupTitle: "S\u00EC, {partnerName}!",
       closeButton: "Chiudi",
       footerText: "Fatto con",
@@ -377,9 +375,6 @@
     var btnNo = document.getElementById("lp-btn-no");
     btnNo.textContent = t("noButton", lang);
     btnNo.setAttribute("aria-label", t("noButton", lang));
-
-    // Mobile tooltip
-    document.getElementById("lp-no-tooltip").textContent = t("noTooltipMobile", lang);
 
     // Modal
     document.getElementById("lp-modal-title").textContent = t("popupTitle", lang, {
