@@ -6,8 +6,8 @@
 
   // ── Configuration ───────────────────────────────────────────────
 
-  var CLOUDINARY_CLOUD_NAME = "YOUR_CLOUD_NAME";
-  var CLOUDINARY_UPLOAD_PRESET = "YOUR_UPLOAD_PRESET";
+  var CLOUDINARY_CLOUD_NAME = "dikwj1bvg";
+  var CLOUDINARY_UPLOAD_PRESET = "loves_pages";
 
   var EVENTS = [
     { id: "auto", label: { en: "Automatic (by date)", it: "Automatico (per data)" } },
