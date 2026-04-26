@@ -432,19 +432,10 @@
 
   function initNoButton(config) {
     var btnNo = document.getElementById("lp-btn-no");
-    var tooltip = document.getElementById("lp-no-tooltip");
-    var isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     var fleeCount = 0;
     var MAX_FLEE = 50;
 
-    if (isMobile) {
-      btnNo.classList.add("lp-btn-no--disabled");
-      tooltip.classList.add("lp-no-tooltip--visible");
-      return;
-    }
-
-    // Desktop: fleeing button — disappears after MAX_FLEE moves
-    btnNo.addEventListener("mouseenter", function () {
+    function fleeButton() {
       fleeCount++;
 
       if (fleeCount > MAX_FLEE) {
@@ -483,7 +474,16 @@
 
       btnNo.style.left = newX + "px";
       btnNo.style.top = newY + "px";
-    });
+    }
+
+    // Desktop: flee on hover
+    btnNo.addEventListener("mouseenter", fleeButton);
+
+    // Mobile: flee on tap (prevent actual click, just move)
+    btnNo.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+      fleeButton();
+    }, { passive: false });
   }
 
   // ── Yes Button + Confetti ────────────────────────────────────────
