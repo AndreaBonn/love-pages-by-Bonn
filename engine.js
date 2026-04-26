@@ -184,21 +184,21 @@
 
   var TRANSLATIONS = {
     en: {
-      yesButton: "Yes! \uD83D\uDC95",
+      yesButton: "Yes!",
       noButton: "No",
-      noTooltipMobile: "This button doesn't work \uD83D\uDE04",
-      popupTitle: "Yes, {partnerName}! \uD83C\uDF89",
+      noTooltipMobile: "This button doesn't work",
+      popupTitle: "Yes, {partnerName}!",
       closeButton: "Close",
-      footerText: "Made with \u2764\uFE0F using",
+      footerText: "Made with",
       footerLink: "LovePage",
     },
     it: {
-      yesButton: "S\u00EC! \uD83D\uDC95",
+      yesButton: "S\u00EC!",
       noButton: "No",
-      noTooltipMobile: "Questo bottone non funziona \uD83D\uDE04",
-      popupTitle: "S\u00EC, {partnerName}! \uD83C\uDF89",
+      noTooltipMobile: "Questo bottone non funziona",
+      popupTitle: "S\u00EC, {partnerName}!",
       closeButton: "Chiudi",
-      footerText: "Fatto con \u2764\uFE0F usando",
+      footerText: "Fatto con",
       footerLink: "LovePage",
     },
   };
@@ -412,7 +412,7 @@
     }
 
     // OG meta tags (runtime update, limited value for crawlers)
-    updateMeta("lp-og-title", config.partnerName + " \u2764\uFE0F");
+    updateMeta("lp-og-title", "A question for " + config.partnerName);
     updateMeta("lp-og-description", question);
     updateMeta("lp-og-image", config.successPhoto);
   }
