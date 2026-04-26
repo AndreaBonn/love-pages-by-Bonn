@@ -2,7 +2,7 @@
 
 # Love Pages by Bonn
 
-Un template GitHub Pages che mostra una domanda romantica stagionale al tuo partner. Fai il fork, modifica un file, pubblica in 5 minuti. Zero dipendenze, funziona offline.
+Crea una pagina romantica personalizzata per il tuo partner in meno di 2 minuti. Non serve saper programmare, non serve un account. Compila un modulo e invia il link.
 
 <div align="center">
 
@@ -57,17 +57,70 @@ Quando il tuo partner clicca "Sì", un'esplosione di coriandoli rivela la tua fo
 - Particelle animate di sfondo (cuori, stelle, fiocchi di neve, trifogli, fiori, zucche)
 - Bottone "No" che scappa dal cursore su desktop e dal tocco su mobile
 - Bottone "Sì" che fa esplodere coriandoli e apre un popup con foto e messaggio
-- Due lingue: inglese e italiano (selezionabile nella configurazione)
+- Due lingue: inglese e italiano
 - Tre override colore opzionali: dark, light, pastel
 - Funziona su telefoni, tablet e desktop (da 320px a 2560px)
 - Zero richieste esterne: nessun CDN, nessun analytics, nessun web font
-- Deploy automatico via GitHub Actions ad ogni push su `main`
 
 ---
 
-## Come configurarlo (passo per passo)
+## Due modi per usarlo
 
-Non serve saper programmare. Segui questi passaggi esattamente come scritti.
+| | Configuratore online | Fork su GitHub |
+|---|---|---|
+| **Per** | Tutti | Sviluppatori |
+| **Tempo** | 2 minuti | 5 minuti |
+| **Richiede** | Un browser | Un account GitHub |
+| **Foto personalizzata** | Carica o incolla un link | Carica nel tuo repo |
+| **URL personalizzato** | No (dominio condiviso) | Sì (il tuo github.io) |
+| **Hosting** | Incluso | GitHub Pages (gratuito) |
+
+---
+
+## Opzione A -- Configuratore online (senza codice)
+
+Il modo più veloce. Non serve un account, non serve programmare, non serve installare nulla.
+
+### Passo 1 -- Apri il configuratore
+
+Vai sul sito di Love Pages e vedrai il modulo di configurazione.
+
+### Passo 2 -- Compila il modulo
+
+- **Il tuo nome** e **il nome del tuo partner** (obbligatori)
+- **Lingua della pagina**: inglese o italiano
+- **Evento**: scegli un'occasione specifica (San Valentino, Halloween, Natale...) oppure lascia "Automatico" per far scegliere la pagina in base alla data di oggi
+- **Tema colori**: lascia "Automatico" oppure scegli scuro, chiaro o pastello
+- **Domanda personalizzata** (opzionale): scrivi la tua domanda invece di quella automatica
+- **Messaggio**: il testo mostrato dopo che il tuo partner clicca "Sì"
+
+### Passo 3 -- Aggiungi una foto
+
+Hai due opzioni:
+
+- **Incolla URL**: se la tua foto è già online (es. condivisa da Google Drive, Imgur, o qualsiasi sito), incolla il link diretto
+- **Carica**: clicca l'area di upload e seleziona una foto dal tuo dispositivo (max 5 MB, jpg/png/webp)
+
+La foto è opzionale. Se la salti, verrà mostrata un'emoji cuore al suo posto.
+
+### Passo 4 -- Anteprima e creazione
+
+1. Clicca **Anteprima** per vedere come appare la pagina (si apre in una nuova scheda)
+2. Quando sei soddisfatto, clicca **Crea la tua Love Page**
+3. Il tuo link unico appare in fondo alla pagina
+
+### Passo 5 -- Condividi il link
+
+- Clicca **Copia link** per copiarlo negli appunti
+- Oppure clicca **WhatsApp** / **Telegram** per inviarlo direttamente
+
+Tutto qui. Il tuo partner apre il link e vede la pagina con i vostri nomi, la tua domanda e la tua foto.
+
+---
+
+## Opzione B -- Fork su GitHub (per sviluppatori)
+
+Se vuoi un URL personalizzato (tuousername.github.io) o vuoi modificare il codice, usa il metodo fork.
 
 ### Passo 1 -- Metti una stella al repository
 
@@ -124,7 +177,7 @@ Sostituisci `TUO-USERNAME` con il tuo username GitHub effettivo. Invia questo li
 
 ---
 
-## Configurazione
+## Configurazione (metodo fork)
 
 Tutte le opzioni sono in `config.js`. Solo `yourName`, `partnerName`, `successPhoto` e `successMessage` sono obbligatori. Tutto il resto ha un valore predefinito funzionante.
 
@@ -145,13 +198,15 @@ Tutte le opzioni sono in `config.js`. Solo `yourName`, `partnerName`, `successPh
 ## Risoluzione problemi
 
 **La mia foto non compare.**
-Controlla che il nome del file in `successPhoto` corrisponda esattamente a quello che hai caricato, comprese maiuscole e minuscole. I percorsi su GitHub sono case-sensitive. Se la foto non viene caricata, viene mostrato un cuore come fallback.
+Se hai usato il configuratore: controlla che l'URL che hai incollato sia un link diretto a un'immagine (deve finire in .jpg, .png, o .webp). Link a pagine Google Drive o post Instagram non funzionano -- serve l'URL diretto dell'immagine. Se la foto non viene caricata, viene mostrato un cuore come fallback.
+
+Se hai usato il metodo fork: controlla che il nome del file in `successPhoto` corrisponda esattamente a quello che hai caricato, comprese maiuscole e minuscole.
 
 **La pagina mostra ancora la versione precedente.**
 GitHub Pages può impiegare fino a 2 minuti per aggiornarsi. Svuota la cache del browser con Ctrl+Shift+R (Cmd+Shift+R su Mac).
 
 **Voglio testare un evento specifico.**
-Imposta `forceEvent` in `config.js` su un ID evento (es. `"valentine"`). Questo sovrascrive il rilevamento del calendario.
+Nel configuratore, seleziona l'evento dal menu a tendina. Nel metodo fork, imposta `forceEvent` in `config.js` su un ID evento (es. `"valentine"`).
 
 **Il bottone No è sparito.**
 Dopo 50 tentativi di catturarlo, il bottone si nasconde. Ricarica la pagina per resettarlo.
@@ -163,14 +218,19 @@ Al momento sono supportate solo `"en"` e `"it"`.
 
 ## Come funziona (dettagli tecnici)
 
-Il progetto è composto da quattro file:
+Il progetto ha due modalità:
 
-- `index.html` -- struttura HTML con elementi segnaposto
+**Modalità configuratore** (home page):
+- `index.html` + `create.js` + `create.css` -- il configuratore con modulo
+- `codec.js` -- codifica la configurazione come hash base64url nell'URL
+- `p/index.html` -- decodifica l'hash e carica la pagina con la configurazione dell'utente
+
+**Modalità fork** (tradizionale):
 - `config.js` -- configurazione utente (l'unico file da modificare)
 - `engine.js` -- rilevamento calendario, temi, i18n, particelle, comportamento bottoni, modal
 - `style.css` -- layout, animazioni, design responsive
 
-Nessun build step, nessun bundler, nessuna dipendenza esterna. Apri `index.html` nel browser e funziona.
+Nessun build step, nessun bundler, nessuna dipendenza esterna. Il configuratore genera un URL autosufficiente che funziona per sempre -- nessun server, nessun database, nessun account.
 
 Per il debug, apri la console del browser e lancia `__LOVEPAGE_DEBUG__()` per vedere l'evento rilevato, il tema applicato e la configurazione corrente.
 
@@ -183,7 +243,8 @@ Bug report e pull request sono benvenuti. Per nuovi eventi o lingue, apri prima 
 1. Fai il fork del repository
 2. Crea un branch (`git checkout -b fix/descrizione`)
 3. Testa aprendo `index.html` nel browser
-4. Apri una pull request con una descrizione di cosa hai cambiato e perché
+4. Esegui i test aprendo `test.html` nel browser (devono passare tutti)
+5. Apri una pull request con una descrizione di cosa hai cambiato e perché
 
 ---
 
