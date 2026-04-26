@@ -21,9 +21,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Prepare deploy directory
+        run: |
+          mkdir _site
+          # Core app files
+          cp index.html create.js create.css codec.js config.js engine.js style.css _site/
+          # Subdirectories
+          cp -r p _site/p
+          cp -r demo _site/demo
+          cp -r assets _site/assets
+          # Docs assets (screenshots referenced by README)
+          mkdir -p _site/docs/assets
+          cp -r docs/assets/* _site/docs/assets/
+          # Project metadata
+          cp LICENSE README.md README.it.md SECURITY.md SECURITY.it.md _site/
+
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
       - id: deployment
         uses: actions/deploy-pages@v4
