@@ -6,4 +6,5 @@ Thumbs.db
 .env
 .idea/
 .vscode/
+.claude/
 doc_progetto/

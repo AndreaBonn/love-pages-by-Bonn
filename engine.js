@@ -203,7 +203,7 @@
     },
   };
 
-  var REPO_URL = "https://github.com/USER/lovepage";
+  var REPO_URL = "https://github.com/AndreaBonn/lovepage";
 
   // ── Config Reading ───────────────────────────────────────────────
 
