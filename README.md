@@ -8,6 +8,7 @@ Create a personalized romantic page for your partner in under 2 minutes. No codi
 
 [![CI](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml/badge.svg)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/AndreaBonn/love-pages-by-Bonn/main/badges/test-badge.json)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/AndreaBonn/love-pages-by-Bonn/main/badges/coverage-badge.json)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Security Policy](https://img.shields.io/badge/security-policy-blueviolet.svg)](SECURITY.md)
 
@@ -25,22 +26,22 @@ Love Pages by Bonn generates a full-screen page with an animated question that c
 
 The page adapts its colors, particles, and question text to 9 calendar events:
 
-| Event | Date range | Question |
-|---|---|---|
-| Valentine's Day | Feb 10 -- 14 | "Do you want to be my Valentine?" |
-| St. Patrick's Day | Mar 14 -- 17 | "Do you want to be my Lucky Charm?" |
-| Spring | Mar 20 -- Apr 10 | "Do you want to be my Blossom?" |
-| Liberation Day | Apr 23 -- 25 | "Do you want to be my Liberation?" |
-| Summer Solstice | Jun 18 -- 24 | "Do you want to be my Sunshine?" |
-| Halloween | Oct 27 -- 31 | "Do you want to be my Pumpkin?" |
-| Christmas | Dec 20 -- 26 | "Do you want to be my Christmas?" |
-| New Year | Dec 28 -- Jan 2 | "Do you want to be my New Year?" |
-| Generic (fallback) | All year | "Do you want to be mine?" |
+| Event              | Date range       | Question                            |
+| ------------------ | ---------------- | ----------------------------------- |
+| Valentine's Day    | Feb 10 -- 14     | "Do you want to be my Valentine?"   |
+| St. Patrick's Day  | Mar 14 -- 17     | "Do you want to be my Lucky Charm?" |
+| Spring             | Mar 20 -- Apr 10 | "Do you want to be my Blossom?"     |
+| Liberation Day     | Apr 23 -- 25     | "Do you want to be my Liberation?"  |
+| Summer Solstice    | Jun 18 -- 24     | "Do you want to be my Sunshine?"    |
+| Halloween          | Oct 27 -- 31     | "Do you want to be my Pumpkin?"     |
+| Christmas          | Dec 20 -- 26     | "Do you want to be my Christmas?"   |
+| New Year           | Dec 28 -- Jan 2  | "Do you want to be my New Year?"    |
+| Generic (fallback) | All year         | "Do you want to be mine?"           |
 
 Each event has its own color theme, emoji, and animated background particles (hearts, snowflakes, pumpkins, clovers, etc.).
 
-| Valentine's Day | Halloween | Christmas |
-|:---:|:---:|:---:|
+|                   Valentine's Day                   |                      Halloween                      |                      Christmas                      |
+| :-------------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |
 | ![Valentine](assets/screenshots/demo-valentine.png) | ![Halloween](assets/screenshots/demo-halloween.png) | ![Christmas](assets/screenshots/demo-christmas.png) |
 
 The "No" button runs away every time you try to click it:
@@ -68,14 +69,14 @@ When your partner clicks "Yes", a confetti explosion reveals your photo and mess
 
 ## Two ways to use it
 
-| | Online configurator | Fork on GitHub |
-|---|---|---|
-| **For** | Everyone | Developers |
-| **Time** | 2 minutes | 5 minutes |
-| **Requires** | A browser | A GitHub account |
-| **Custom photo** | Upload or paste a link | Upload to your repo |
-| **Custom URL** | No (shared domain) | Yes (your own github.io) |
-| **Hosting** | Included | GitHub Pages (free) |
+|                  | Online configurator    | Fork on GitHub           |
+| ---------------- | ---------------------- | ------------------------ |
+| **For**          | Everyone               | Developers               |
+| **Time**         | 2 minutes              | 5 minutes                |
+| **Requires**     | A browser              | A GitHub account         |
+| **Custom photo** | Upload or paste a link | Upload to your repo      |
+| **Custom URL**   | No (shared domain)     | Yes (your own github.io) |
+| **Hosting**      | Included               | GitHub Pages (free)      |
 
 ---
 
@@ -187,17 +188,17 @@ Replace `YOUR-USERNAME` with your actual GitHub username. Send this link to your
 
 All options are in `config.js`. Only `yourName`, `partnerName`, `successPhoto`, and `successMessage` are required. Everything else has a working default.
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `yourName` | string | `"Romeo"` | Your name, displayed at the top |
-| `partnerName` | string | `"Giulietta"` | Your partner's name, used in the header and popup |
-| `language` | string | `"en"` | `"en"` or `"it"` |
-| `successPhoto` | string | `"assets/photos/example.jpg"` | Path to the photo shown in the Yes popup |
-| `successMessage` | string | (see config.js) | Message shown in the Yes popup |
-| `forceEvent` | string or null | `null` | Force a specific theme: `"valentine"`, `"patrick"`, `"spring"`, `"liberation"`, `"summer"`, `"halloween"`, `"christmas"`, `"newyear"`, `"generic"` |
-| `customQuestion` | string or null | `null` | Replace the automatic seasonal question with your own |
-| `theme` | string or null | `null` | Color override: `"dark"`, `"light"`, or `"pastel"` |
-| `showFooter` | boolean | `true` | Show or hide the attribution footer |
+| Option           | Type           | Default                       | Description                                                                                                                                        |
+| ---------------- | -------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `yourName`       | string         | `"Romeo"`                     | Your name, displayed at the top                                                                                                                    |
+| `partnerName`    | string         | `"Giulietta"`                 | Your partner's name, used in the header and popup                                                                                                  |
+| `language`       | string         | `"en"`                        | `"en"` or `"it"`                                                                                                                                   |
+| `successPhoto`   | string         | `"assets/photos/example.jpg"` | Path to the photo shown in the Yes popup                                                                                                           |
+| `successMessage` | string         | (see config.js)               | Message shown in the Yes popup                                                                                                                     |
+| `forceEvent`     | string or null | `null`                        | Force a specific theme: `"valentine"`, `"patrick"`, `"spring"`, `"liberation"`, `"summer"`, `"halloween"`, `"christmas"`, `"newyear"`, `"generic"` |
+| `customQuestion` | string or null | `null`                        | Replace the automatic seasonal question with your own                                                                                              |
+| `theme`          | string or null | `null`                        | Color override: `"dark"`, `"light"`, or `"pastel"`                                                                                                 |
+| `showFooter`     | boolean        | `true`                        | Show or hide the attribution footer                                                                                                                |
 
 ---
 
@@ -227,11 +228,13 @@ Only `"en"` and `"it"` are supported at this time.
 The project has two modes:
 
 **Configurator mode** (home page):
+
 - `index.html` + `create.js` + `create.css` -- the form-based configurator
 - `codec.js` -- encodes the configuration as a base64url hash in the URL
 - `p/index.html` -- decodes the hash and loads the page with the user's configuration
 
 **Fork mode** (traditional):
+
 - `config.js` -- user configuration (the only file to edit)
 - `engine.js` -- calendar detection, theming, i18n, particles, button behavior, modal
 - `style.css` -- layout, animations, responsive design

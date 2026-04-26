@@ -8,6 +8,7 @@ Crea una pagina romantica personalizzata per il tuo partner in meno di 2 minuti.
 
 [![CI](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml/badge.svg)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/AndreaBonn/love-pages-by-Bonn/main/badges/test-badge.json)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/AndreaBonn/love-pages-by-Bonn/main/badges/coverage-badge.json)](https://github.com/AndreaBonn/love-pages-by-Bonn/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Security Policy](https://img.shields.io/badge/security-policy-blueviolet.svg)](SECURITY.md)
 
@@ -25,22 +26,22 @@ Love Pages by Bonn genera una pagina a schermo intero con una domanda animata ch
 
 La pagina adatta colori, particelle e testo della domanda a 9 eventi del calendario:
 
-| Evento | Periodo | Domanda |
-|---|---|---|
-| San Valentino | 10 -- 14 Feb | "Vuoi essere il mio/la mia Valentino/a?" |
-| San Patrizio | 14 -- 17 Mar | "Vuoi essere il mio portafortuna?" |
-| Primavera | 20 Mar -- 10 Apr | "Vuoi essere il mio fiore di primavera?" |
-| Festa della Liberazione | 23 -- 25 Apr | "Vuoi essere la mia Liberazione?" |
-| Solstizio d'Estate | 18 -- 24 Giu | "Vuoi essere il mio sole?" |
-| Halloween | 27 -- 31 Ott | "Vuoi essere la mia zucca?" |
-| Natale | 20 -- 26 Dic | "Vuoi essere il mio Natale?" |
-| Anno Nuovo | 28 Dic -- 2 Gen | "Vuoi essere il mio Anno Nuovo?" |
-| Generico (fallback) | Tutto l'anno | "Vuoi essere mio/mia?" |
+| Evento                  | Periodo          | Domanda                                  |
+| ----------------------- | ---------------- | ---------------------------------------- |
+| San Valentino           | 10 -- 14 Feb     | "Vuoi essere il mio/la mia Valentino/a?" |
+| San Patrizio            | 14 -- 17 Mar     | "Vuoi essere il mio portafortuna?"       |
+| Primavera               | 20 Mar -- 10 Apr | "Vuoi essere il mio fiore di primavera?" |
+| Festa della Liberazione | 23 -- 25 Apr     | "Vuoi essere la mia Liberazione?"        |
+| Solstizio d'Estate      | 18 -- 24 Giu     | "Vuoi essere il mio sole?"               |
+| Halloween               | 27 -- 31 Ott     | "Vuoi essere la mia zucca?"              |
+| Natale                  | 20 -- 26 Dic     | "Vuoi essere il mio Natale?"             |
+| Anno Nuovo              | 28 Dic -- 2 Gen  | "Vuoi essere il mio Anno Nuovo?"         |
+| Generico (fallback)     | Tutto l'anno     | "Vuoi essere mio/mia?"                   |
 
 Ogni evento ha il suo tema colori, la sua emoji e le sue particelle animate di sfondo (cuori, fiocchi di neve, zucche, trifogli, ecc.).
 
-| San Valentino | Halloween | Natale |
-|:---:|:---:|:---:|
+|                    San Valentino                    |                      Halloween                      |                       Natale                        |
+| :-------------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |
 | ![Valentine](assets/screenshots/demo-valentine.png) | ![Halloween](assets/screenshots/demo-halloween.png) | ![Christmas](assets/screenshots/demo-christmas.png) |
 
 Il bottone "No" scappa ogni volta che provi a cliccarlo:
@@ -68,14 +69,14 @@ Quando il tuo partner clicca "Sì", un'esplosione di coriandoli rivela la tua fo
 
 ## Due modi per usarlo
 
-| | Configuratore online | Fork su GitHub |
-|---|---|---|
-| **Per** | Tutti | Sviluppatori |
-| **Tempo** | 2 minuti | 5 minuti |
-| **Richiede** | Un browser | Un account GitHub |
-| **Foto personalizzata** | Carica o incolla un link | Carica nel tuo repo |
-| **URL personalizzato** | No (dominio condiviso) | Sì (il tuo github.io) |
-| **Hosting** | Incluso | GitHub Pages (gratuito) |
+|                         | Configuratore online     | Fork su GitHub          |
+| ----------------------- | ------------------------ | ----------------------- |
+| **Per**                 | Tutti                    | Sviluppatori            |
+| **Tempo**               | 2 minuti                 | 5 minuti                |
+| **Richiede**            | Un browser               | Un account GitHub       |
+| **Foto personalizzata** | Carica o incolla un link | Carica nel tuo repo     |
+| **URL personalizzato**  | No (dominio condiviso)   | Sì (il tuo github.io)   |
+| **Hosting**             | Incluso                  | GitHub Pages (gratuito) |
 
 ---
 
@@ -187,17 +188,17 @@ Sostituisci `TUO-USERNAME` con il tuo username GitHub effettivo. Invia questo li
 
 Tutte le opzioni sono in `config.js`. Solo `yourName`, `partnerName`, `successPhoto` e `successMessage` sono obbligatori. Tutto il resto ha un valore predefinito funzionante.
 
-| Opzione | Tipo | Default | Descrizione |
-|---|---|---|---|
-| `yourName` | string | `"Romeo"` | Il tuo nome, mostrato in alto |
-| `partnerName` | string | `"Giulietta"` | Il nome del tuo partner, usato nell'header e nel popup |
-| `language` | string | `"en"` | `"en"` o `"it"` |
-| `successPhoto` | string | `"assets/photos/example.jpg"` | Percorso della foto mostrata nel popup del Sì |
-| `successMessage` | string | (vedi config.js) | Messaggio mostrato nel popup del Sì |
-| `forceEvent` | string o null | `null` | Forza un tema specifico: `"valentine"`, `"patrick"`, `"spring"`, `"liberation"`, `"summer"`, `"halloween"`, `"christmas"`, `"newyear"`, `"generic"` |
-| `customQuestion` | string o null | `null` | Sostituisce la domanda stagionale automatica con una personalizzata |
-| `theme` | string o null | `null` | Override colore: `"dark"`, `"light"`, o `"pastel"` |
-| `showFooter` | boolean | `true` | Mostra o nasconde il footer di attribuzione |
+| Opzione          | Tipo          | Default                       | Descrizione                                                                                                                                         |
+| ---------------- | ------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `yourName`       | string        | `"Romeo"`                     | Il tuo nome, mostrato in alto                                                                                                                       |
+| `partnerName`    | string        | `"Giulietta"`                 | Il nome del tuo partner, usato nell'header e nel popup                                                                                              |
+| `language`       | string        | `"en"`                        | `"en"` o `"it"`                                                                                                                                     |
+| `successPhoto`   | string        | `"assets/photos/example.jpg"` | Percorso della foto mostrata nel popup del Sì                                                                                                       |
+| `successMessage` | string        | (vedi config.js)              | Messaggio mostrato nel popup del Sì                                                                                                                 |
+| `forceEvent`     | string o null | `null`                        | Forza un tema specifico: `"valentine"`, `"patrick"`, `"spring"`, `"liberation"`, `"summer"`, `"halloween"`, `"christmas"`, `"newyear"`, `"generic"` |
+| `customQuestion` | string o null | `null`                        | Sostituisce la domanda stagionale automatica con una personalizzata                                                                                 |
+| `theme`          | string o null | `null`                        | Override colore: `"dark"`, `"light"`, o `"pastel"`                                                                                                  |
+| `showFooter`     | boolean       | `true`                        | Mostra o nasconde il footer di attribuzione                                                                                                         |
 
 ---
 
@@ -227,11 +228,13 @@ Al momento sono supportate solo `"en"` e `"it"`.
 Il progetto ha due modalità:
 
 **Modalità configuratore** (home page):
+
 - `index.html` + `create.js` + `create.css` -- il configuratore con modulo
 - `codec.js` -- codifica la configurazione come hash base64url nell'URL
 - `p/index.html` -- decodifica l'hash e carica la pagina con la configurazione dell'utente
 
 **Modalità fork** (tradizionale):
+
 - `config.js` -- configurazione utente (l'unico file da modificare)
 - `engine.js` -- rilevamento calendario, temi, i18n, particelle, comportamento bottoni, modal
 - `style.css` -- layout, animazioni, design responsive
