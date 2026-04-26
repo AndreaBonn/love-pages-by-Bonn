@@ -1,0 +1,35 @@
+name: Cloudinary Cleanup
+
+on:
+  schedule:
+    # Every Sunday at 03:00 UTC
+    - cron: "0 3 * * 0"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (list without deleting)"
+        type: boolean
+        default: true
+      max_age_days:
+        description: "Delete images older than N days"
+        type: number
+        default: 30
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run cleanup
+        env:
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          CLOUDINARY_MAX_AGE_DAYS: ${{ inputs.max_age_days || '30' }}
+          CLOUDINARY_DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: python scripts/cloudinary_cleanup.py

@@ -9,5 +9,6 @@ Thumbs.db
 .claude/
 doc_progetto/
 coverage/
+node_modules/
 test-results.json
 .playwright-mcp/
