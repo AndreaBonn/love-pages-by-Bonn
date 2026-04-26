@@ -31,35 +31,7 @@ jobs:
         run: |
           npx serve . -l 3000 &
           sleep 2
-
-          node -e "
-          const { chromium } = require('playwright');
-          const fs = require('fs');
-          (async () => {
-            const browser = await chromium.launch();
-            const page = await browser.newPage();
-            await page.goto('http://localhost:3000/test.html');
-            await page.waitForSelector('.summary', { timeout: 15000 });
-
-            const title = await page.title();
-            const passEls = await page.locator('.pass:not(.summary .pass)').count();
-            const failEls = await page.locator('.fail:not(.summary .fail)').count();
-
-            const summaryText = await page.locator('.summary').textContent();
-            console.log('Summary: ' + summaryText);
-            console.log('Title: ' + title);
-
-            const passed = passEls;
-            const failed = failEls;
-            const total = passed + failed;
-
-            fs.writeFileSync('test-results.json', JSON.stringify({ passed, failed, total }));
-            console.log('Tests: ' + passed + ' passed, ' + failed + ' failed, ' + total + ' total');
-
-            await browser.close();
-            if (failed > 0) process.exit(1);
-          })();
-          "
+          node scripts/run-tests.js
 
       - name: Generate test badge
         if: always()
