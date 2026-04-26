@@ -400,6 +400,415 @@
         );
       });
 
+      // ── t() i18n helper ─────────────────────────────────────────
+
+      suite("t() i18n helper");
+
+      assertEqual(
+        "returns EN translation for known key",
+        I.t("yesButton", "en"),
+        "Yes!"
+      );
+
+      assertEqual(
+        "returns IT translation for known key",
+        I.t("yesButton", "it"),
+        "Sì!"
+      );
+
+      assertEqual(
+        "replaces placeholder with value",
+        I.t("popupTitle", "en", { partnerName: "Alice" }),
+        "Yes, Alice!"
+      );
+
+      assertEqual(
+        "replaces placeholder in IT",
+        I.t("popupTitle", "it", { partnerName: "Marco" }),
+        "Sì, Marco!"
+      );
+
+      assertEqual(
+        "returns key itself if not found in any language",
+        I.t("nonExistentKey", "en"),
+        "nonExistentKey"
+      );
+
+      assertEqual(
+        "falls back to EN for unsupported language",
+        I.t("yesButton", "fr"),
+        "Yes!"
+      );
+
+      assertEqual(
+        "works without replacements param",
+        I.t("noButton", "en", null),
+        "No"
+      );
+
+      assertEqual(
+        "ignores extra replacement keys not in template",
+        I.t("noButton", "en", { unused: "value" }),
+        "No"
+      );
+
+      // ── getParticleEmojis ────────────────────────────────────────
+
+      suite("getParticleEmojis");
+
+      assertEqual(
+        "returns hearts array for 'hearts' type",
+        I.getParticleEmojis("hearts").length,
+        I.PARTICLE_MAP.hearts.length
+      );
+
+      assert(
+        "hearts contains ❤️",
+        I.getParticleEmojis("hearts").indexOf("\u2764\uFE0F") !== -1
+      );
+
+      assert(
+        "returns snowflakes array for 'snowflakes' type",
+        I.getParticleEmojis("snowflakes") === I.PARTICLE_MAP.snowflakes
+      );
+
+      assert(
+        "returns clovers array for 'clovers' type",
+        I.getParticleEmojis("clovers") === I.PARTICLE_MAP.clovers
+      );
+
+      assert(
+        "falls back to hearts for unknown type",
+        I.getParticleEmojis("unknown") === I.PARTICLE_MAP.hearts
+      );
+
+      assert(
+        "falls back to hearts for undefined type",
+        I.getParticleEmojis(undefined) === I.PARTICLE_MAP.hearts
+      );
+
+      assert(
+        "falls back to hearts for null type",
+        I.getParticleEmojis(null) === I.PARTICLE_MAP.hearts
+      );
+
+      // ── detectEvent (extended) ───────────────────────────────────
+
+      suite("detectEvent (extended)");
+
+      // Test each forceEvent value
+      ["valentine", "patrick", "spring", "liberation", "summer",
+       "halloween", "christmas", "newyear"].forEach(function (id) {
+        assertEqual(
+          "forceEvent='" + id + "' returns correct event",
+          I.detectEvent({ forceEvent: id, language: "en" }).id,
+          id
+        );
+      });
+
+      // Test auto-detection with known dates
+      // Save original Date and mock it
+      var OriginalDate = Date;
+
+      function mockDate(year, month, day) {
+        var fixed = new OriginalDate(year, month, day);
+        window.Date = function () {
+          if (arguments.length === 0) return fixed;
+          return new (Function.prototype.bind.apply(OriginalDate, [null].concat(Array.prototype.slice.call(arguments))))();
+        };
+        window.Date.prototype = OriginalDate.prototype;
+        window.Date.now = function () { return fixed.getTime(); };
+      }
+
+      mockDate(2026, 1, 12); // Feb 12
+      assertEqual(
+        "auto-detects valentine on Feb 12",
+        I.detectEvent({ forceEvent: null, language: "en" }).id,
+        "valentine"
+      );
+
+      mockDate(2026, 9, 29); // Oct 29
+      assertEqual(
+        "auto-detects halloween on Oct 29",
+        I.detectEvent({ forceEvent: null, language: "en" }).id,
+        "halloween"
+      );
+
+      mockDate(2026, 11, 25); // Dec 25
+      assertEqual(
+        "auto-detects christmas on Dec 25",
+        I.detectEvent({ forceEvent: null, language: "en" }).id,
+        "christmas"
+      );
+
+      mockDate(2027, 0, 1); // Jan 1
+      assertEqual(
+        "auto-detects newyear on Jan 1",
+        I.detectEvent({ forceEvent: null, language: "en" }).id,
+        "newyear"
+      );
+
+      mockDate(2026, 6, 15); // Jul 15 — no event
+      assertEqual(
+        "auto-detects generic on Jul 15 (no seasonal event)",
+        I.detectEvent({ forceEvent: null, language: "en" }).id,
+        "generic"
+      );
+
+      mockDate(2026, 2, 15); // Mar 15 — St Patrick
+      assertEqual(
+        "auto-detects patrick on Mar 15",
+        I.detectEvent({ forceEvent: null, language: "en" }).id,
+        "patrick"
+      );
+
+      mockDate(2026, 5, 20); // Jun 20 — Summer
+      assertEqual(
+        "auto-detects summer on Jun 20",
+        I.detectEvent({ forceEvent: null, language: "en" }).id,
+        "summer"
+      );
+
+      // Restore original Date
+      window.Date = OriginalDate;
+
+      // ── getConfig (extended) ─────────────────────────────────────
+
+      suite("getConfig (extended)");
+
+      var origCfg = window.LOVEPAGE_CONFIG;
+
+      // Partial config — only some fields
+      window.LOVEPAGE_CONFIG = { yourName: "Alice" };
+      var partial = I.getConfig();
+
+      assertEqual(
+        "partial config reads provided field",
+        partial.yourName,
+        "Alice"
+      );
+
+      assertEqual(
+        "partial config uses default for missing partnerName",
+        partial.partnerName,
+        "You"
+      );
+
+      assertEqual(
+        "partial config uses default for missing language",
+        partial.language,
+        "en"
+      );
+
+      assertEqual(
+        "partial config uses default for missing successPhoto",
+        partial.successPhoto,
+        "assets/photos/example.jpg"
+      );
+
+      assertEqual(
+        "partial config uses default for missing successMessage",
+        partial.successMessage,
+        "You are the best thing that ever happened to me"
+      );
+
+      assert(
+        "partial config uses default showFooter=true",
+        partial.showFooter === true
+      );
+
+      assertEqual(
+        "partial config uses default forceEvent=null",
+        partial.forceEvent,
+        null
+      );
+
+      assertEqual(
+        "partial config uses default customQuestion=null",
+        partial.customQuestion,
+        null
+      );
+
+      assertEqual(
+        "partial config uses default theme=null",
+        partial.theme,
+        null
+      );
+
+      // Config with IT language
+      window.LOVEPAGE_CONFIG = { language: "it" };
+      assertEqual(
+        "config with 'it' language is accepted",
+        I.getConfig().language,
+        "it"
+      );
+
+      // Config with explicit false for showFooter
+      window.LOVEPAGE_CONFIG = { showFooter: false };
+      assertEqual(
+        "showFooter=false is preserved (not overridden by default)",
+        I.getConfig().showFooter,
+        false
+      );
+
+      // Empty object config
+      window.LOVEPAGE_CONFIG = {};
+      var emptyCfg = I.getConfig();
+      assertEqual(
+        "empty object config falls back to default yourName",
+        emptyCfg.yourName,
+        "Someone"
+      );
+
+      // Restore
+      window.LOVEPAGE_CONFIG = origCfg;
+
+      // ── isDateInRange (extended) ─────────────────────────────────
+
+      suite("isDateInRange (extended)");
+
+      // Single-day range
+      var singleDay = { start: [5, 1], end: [5, 1] };
+
+      assert(
+        "May 1 is within single-day range [5,1]-[5,1]",
+        I.isDateInRange(new Date(2026, 4, 1), singleDay)
+      );
+
+      assert(
+        "May 2 is outside single-day range",
+        !I.isDateInRange(new Date(2026, 4, 2), singleDay)
+      );
+
+      assert(
+        "Apr 30 is outside single-day range",
+        !I.isDateInRange(new Date(2026, 3, 30), singleDay)
+      );
+
+      // Year-crossing: mid-range date in January
+      var xmasNewYear = { start: [12, 20], end: [1, 5] };
+
+      assert(
+        "Jan 3 is within Dec 20 - Jan 5 range",
+        I.isDateInRange(new Date(2027, 0, 3), xmasNewYear)
+      );
+
+      assert(
+        "Jan 6 is outside Dec 20 - Jan 5 range",
+        !I.isDateInRange(new Date(2027, 0, 6), xmasNewYear)
+      );
+
+      assert(
+        "Jun 15 is outside year-crossing range",
+        !I.isDateInRange(new Date(2026, 5, 15), xmasNewYear)
+      );
+
+      // ── EVENTS no overlap ────────────────────────────────────────
+
+      suite("EVENTS no overlap");
+
+      // Check that no two events overlap in date ranges (excluding year-crossing edge)
+      var noOverlap = true;
+      var overlapPair = "";
+      for (var i = 0; i < I.EVENTS.length && noOverlap; i++) {
+        for (var j = i + 1; j < I.EVENTS.length && noOverlap; j++) {
+          // Test representative dates in event i's range
+          var a = I.EVENTS[i];
+          var b = I.EVENTS[j];
+          var startM = a.dateRange.start[0];
+          var startD = a.dateRange.start[1];
+          var endM = a.dateRange.end[0];
+          var endD = a.dateRange.end[1];
+
+          // Check if event b's start falls within event a's range
+          var bStart = new Date(2026, b.dateRange.start[0] - 1, b.dateRange.start[1]);
+          var bEnd = new Date(2026, b.dateRange.end[0] - 1, b.dateRange.end[1]);
+          if (I.isDateInRange(bStart, a.dateRange) || I.isDateInRange(bEnd, a.dateRange)) {
+            noOverlap = false;
+            overlapPair = a.id + " / " + b.id;
+          }
+        }
+      }
+
+      assert(
+        "no two events have overlapping date ranges" + (overlapPair ? " (overlap: " + overlapPair + ")" : ""),
+        noOverlap
+      );
+
+      // ── GENERIC_EVENT completeness ───────────────────────────────
+
+      suite("GENERIC_EVENT completeness");
+
+      assertEqual(
+        "generic event id is 'generic'",
+        I.GENERIC_EVENT.id,
+        "generic"
+      );
+
+      assert(
+        "generic event has emoji",
+        typeof I.GENERIC_EVENT.emoji === "string" && I.GENERIC_EVENT.emoji.length > 0
+      );
+
+      assert(
+        "generic event has particles type",
+        typeof I.GENERIC_EVENT.particles === "string"
+      );
+
+      assert(
+        "generic event has label.en",
+        typeof I.GENERIC_EVENT.label.en === "string"
+      );
+
+      assert(
+        "generic event has label.it",
+        typeof I.GENERIC_EVENT.label.it === "string"
+      );
+
+      assert(
+        "generic event has complete theme",
+        I.GENERIC_EVENT.theme.primary && I.GENERIC_EVENT.theme.secondary &&
+        I.GENERIC_EVENT.theme.background && I.GENERIC_EVENT.theme.accent &&
+        I.GENERIC_EVENT.theme.text && I.GENERIC_EVENT.theme.textLight
+      );
+
+      // ── EVENTS all particle types are valid ──────────────────────
+
+      suite("EVENTS particle types");
+
+      I.EVENTS.forEach(function (event) {
+        assert(
+          event.id + " particles type '" + event.particles + "' exists in PARTICLE_MAP",
+          I.PARTICLE_MAP[event.particles] !== undefined
+        );
+      });
+
+      assert(
+        "generic particles type '" + I.GENERIC_EVENT.particles + "' exists in PARTICLE_MAP",
+        I.PARTICLE_MAP[I.GENERIC_EVENT.particles] !== undefined
+      );
+
+      // ── EVENTS emoji presence ────────────────────────────────────
+
+      suite("EVENTS emoji & label");
+
+      I.EVENTS.forEach(function (event) {
+        assert(
+          event.id + " has non-empty emoji",
+          typeof event.emoji === "string" && event.emoji.length > 0
+        );
+
+        assert(
+          event.id + " has label.en",
+          typeof event.label.en === "string" && event.label.en.length > 0
+        );
+
+        assert(
+          event.id + " has label.it",
+          typeof event.label.it === "string" && event.label.it.length > 0
+        );
+      });
+
       // ── Summary ────────────────────────────────────────────────
 
       var summary = document.createElement("div");
