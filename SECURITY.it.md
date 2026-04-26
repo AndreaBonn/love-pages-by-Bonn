@@ -33,11 +33,11 @@ LovePage è un sito statico senza codice server-side, senza database, senza aute
 
 Le seguenti misure sono implementate:
 
-- **Prevenzione XSS**: i nomi forniti dall'utente (`yourName`, `partnerName`) vengono sanitizzati tramite `escapeHTML()` prima dell'inserimento nel DOM (`engine.js`, funzione `escapeHTML` alla riga 420). Tutti gli altri testi configurabili dall'utente sono inseriti tramite `textContent`, non `innerHTML`.
-- **Validazione input**: valori `language` non supportati ricadono su `"en"` (`engine.js`, righe 238-244). Valori `forceEvent` non validi vengono ignorati e si usa il rilevamento automatico (`engine.js`, righe 276-287).
+- **Prevenzione XSS**: i nomi forniti dall'utente (`yourName`, `partnerName`) vengono sanitizzati tramite la funzione `escapeHTML()` in `engine.js` prima dell'inserimento nel DOM. Tutti gli altri testi configurabili dall'utente sono inseriti tramite `textContent`, non `innerHTML`.
+- **Validazione input**: valori `language` non supportati ricadono su `"en"` (vedi `getConfig()` in `engine.js`). Valori `forceEvent` non validi vengono ignorati e si usa il rilevamento automatico (vedi `detectEvent()` in `engine.js`).
 - **Nessuna richiesta esterna**: la pagina non carica risorse esterne. Nessun CDN, nessun analytics, nessun font di terze parti, nessun tracciamento. Tutto funziona dai file locali serviti da GitHub Pages.
-- **Sicurezza link**: i link esterni usano `rel="noopener"` per prevenire il reverse tabnapping (`engine.js`, riga 407).
-- **Fallback controllato**: se la foto configurata non viene caricata, la pagina mostra un'emoji al posto di un'immagine rotta (`engine.js`, righe 396-400).
+- **Sicurezza link**: i link esterni usano `rel="noopener"` per prevenire il reverse tabnapping (vedi `populateDOM()` in `engine.js`).
+- **Fallback controllato**: se la foto configurata non viene caricata, la pagina mostra un'emoji al posto di un'immagine rotta (vedi gestore errore foto in `populateDOM()` in `engine.js`).
 
 ## Best practice di sicurezza per gli utenti
 

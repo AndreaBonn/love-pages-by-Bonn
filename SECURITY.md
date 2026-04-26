@@ -33,11 +33,11 @@ LovePage is a static website with no server-side code, no database, no authentic
 
 The following measures are implemented:
 
-- **XSS prevention**: user-provided names (`yourName`, `partnerName`) are sanitized through `escapeHTML()` before DOM insertion (`engine.js`, `escapeHTML` function at line 420). All other user-configurable text is inserted via `textContent`, not `innerHTML`.
-- **Input validation**: unsupported `language` values fall back to `"en"` (`engine.js`, lines 238-244). Invalid `forceEvent` values are ignored and auto-detection is used instead (`engine.js`, lines 276-287).
+- **XSS prevention**: user-provided names (`yourName`, `partnerName`) are sanitized through the `escapeHTML()` function in `engine.js` before DOM insertion. All other user-configurable text is inserted via `textContent`, not `innerHTML`.
+- **Input validation**: unsupported `language` values fall back to `"en"` (see `getConfig()` in `engine.js`). Invalid `forceEvent` values are ignored and auto-detection is used instead (see `detectEvent()` in `engine.js`).
 - **No external requests**: the page loads zero external resources. No CDN, no analytics, no third-party fonts, no tracking. Everything runs from the local files served by GitHub Pages.
-- **Link security**: external links use `rel="noopener"` to prevent reverse tabnapping (`engine.js`, line 407).
-- **Graceful failure**: if the configured photo fails to load, the page displays a fallback emoji instead of a broken image (`engine.js`, lines 396-400).
+- **Link security**: external links use `rel="noopener"` to prevent reverse tabnapping (see `populateDOM()` in `engine.js`).
+- **Graceful failure**: if the configured photo fails to load, the page displays a fallback emoji instead of a broken image (see `populateDOM()` photo error handler in `engine.js`).
 
 ## Security best practices for users
 
