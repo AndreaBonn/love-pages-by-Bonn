@@ -756,6 +756,18 @@
     initParticles(event);
   }
 
+  // Expose internals for testing (not part of public API)
+  window.__LOVEPAGE_INTERNALS__ = {
+    EVENTS: EVENTS,
+    GENERIC_EVENT: GENERIC_EVENT,
+    TRANSLATIONS: TRANSLATIONS,
+    THEME_OVERRIDES: THEME_OVERRIDES,
+    isDateInRange: isDateInRange,
+    detectEvent: detectEvent,
+    getConfig: getConfig,
+    escapeHTML: escapeHTML,
+  };
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LovePage Tests</title>
+  <style>
+    body { font-family: monospace; margin: 2rem; background: #1a1a2e; color: #e0e0e0; }
+    .pass { color: #22c55e; }
+    .fail { color: #ef4444; font-weight: bold; }
+    .suite { color: #a78bfa; margin-top: 1.5rem; font-size: 1.1rem; }
+    .summary { margin-top: 2rem; padding: 1rem; border-top: 1px solid #333; font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1>LovePage Test Suite</h1>
+  <div id="results"></div>
+
+  <!-- Provide a minimal config so engine.js doesn't error on DOM operations -->
+  <div id="lp-header"></div>
+  <div id="lp-emoji"></div>
+  <h1 id="lp-question"></h1>
+  <button id="lp-btn-yes"></button>
+  <button id="lp-btn-no"></button>
+  <div id="lp-modal" class="lp-overlay">
+    <div class="lp-modal">
+      <h2 id="lp-modal-title"></h2>
+      <img id="lp-modal-photo" src="">
+      <div id="lp-modal-photo-fallback" style="display:none"></div>
+      <p id="lp-modal-message"></p>
+      <button id="lp-modal-close"></button>
+    </div>
+  </div>
+  <div id="lp-particles"></div>
+  <footer id="lp-footer"></footer>
+  <meta property="og:title" id="lp-og-title" content="">
+  <meta property="og:description" id="lp-og-description" content="">
+  <meta property="og:image" id="lp-og-image" content="">
+
+  <script src="config.js"></script>
+  <script src="engine.js"></script>
+  <script>
+    (function () {
+      var results = document.getElementById("results");
+      var passed = 0;
+      var failed = 0;
+      var currentSuite = "";
+
+      function suite(name) {
+        currentSuite = name;
+        var el = document.createElement("div");
+        el.className = "suite";
+        el.textContent = name;
+        results.appendChild(el);
+      }
+
+      function assert(description, condition) {
+        var el = document.createElement("div");
+        if (condition) {
+          el.className = "pass";
+          el.textContent = "  PASS  " + description;
+          passed++;
+        } else {
+          el.className = "fail";
+          el.textContent = "  FAIL  " + description;
+          failed++;
+        }
+        results.appendChild(el);
+      }
+
+      function assertEqual(description, actual, expected) {
+        var match = actual === expected;
+        var el = document.createElement("div");
+        if (match) {
+          el.className = "pass";
+          el.textContent = "  PASS  " + description;
+          passed++;
+        } else {
+          el.className = "fail";
+          el.textContent = "  FAIL  " + description +
+            " (expected: " + JSON.stringify(expected) +
+            ", got: " + JSON.stringify(actual) + ")";
+          failed++;
+        }
+        results.appendChild(el);
+      }
+
+      var I = window.__LOVEPAGE_INTERNALS__;
+
+      // ── escapeHTML ─────────────────────────────────────────────
+
+      suite("escapeHTML");
+
+      assertEqual(
+        "escapes angle brackets",
+        I.escapeHTML("<div>hello</div>"),
+        "&lt;div&gt;hello&lt;/div&gt;"
+      );
+
+      assertEqual(
+        "escapes ampersand",
+        I.escapeHTML("Tom & Jerry"),
+        "Tom &amp; Jerry"
+      );
+
+      assertEqual(
+        "preserves double quotes in text context",
+        I.escapeHTML('He said "hello"'),
+        'He said "hello"'
+      );
+
+      assertEqual(
+        "passes through plain text unchanged",
+        I.escapeHTML("Marco"),
+        "Marco"
+      );
+
+      assertEqual(
+        "handles empty string",
+        I.escapeHTML(""),
+        ""
+      );
+
+      assertEqual(
+        "handles unicode characters",
+        I.escapeHTML("Caf\u00e9 & R\u00e9sum\u00e9"),
+        "Caf\u00e9 &amp; R\u00e9sum\u00e9"
+      );
+
+      // ── isDateInRange ──────────────────────────────────────────
+
+      suite("isDateInRange");
+
+      // Valentine: Feb 10-14
+      var valentineRange = { start: [2, 10], end: [2, 14] };
+
+      assert(
+        "Feb 12 is within Valentine range",
+        I.isDateInRange(new Date(2026, 1, 12), valentineRange)
+      );
+
+      assert(
+        "Feb 10 is within Valentine range (start boundary)",
+        I.isDateInRange(new Date(2026, 1, 10), valentineRange)
+      );
+
+      assert(
+        "Feb 14 is within Valentine range (end boundary)",
+        I.isDateInRange(new Date(2026, 1, 14), valentineRange)
+      );
+
+      assert(
+        "Feb 9 is outside Valentine range",
+        !I.isDateInRange(new Date(2026, 1, 9), valentineRange)
+      );
+
+      assert(
+        "Feb 15 is outside Valentine range",
+        !I.isDateInRange(new Date(2026, 1, 15), valentineRange)
+      );
+
+      assert(
+        "Mar 1 is outside Valentine range",
+        !I.isDateInRange(new Date(2026, 2, 1), valentineRange)
+      );
+
+      // Year-crossing range: Dec 28 - Jan 2
+      var newYearRange = { start: [12, 28], end: [1, 2] };
+
+      assert(
+        "Dec 28 is within New Year range (start boundary)",
+        I.isDateInRange(new Date(2026, 11, 28), newYearRange)
+      );
+
+      assert(
+        "Dec 31 is within New Year range",
+        I.isDateInRange(new Date(2026, 11, 31), newYearRange)
+      );
+
+      assert(
+        "Jan 1 is within New Year range (year crossing)",
+        I.isDateInRange(new Date(2027, 0, 1), newYearRange)
+      );
+
+      assert(
+        "Jan 2 is within New Year range (end boundary)",
+        I.isDateInRange(new Date(2027, 0, 2), newYearRange)
+      );
+
+      assert(
+        "Jan 3 is outside New Year range",
+        !I.isDateInRange(new Date(2027, 0, 3), newYearRange)
+      );
+
+      assert(
+        "Dec 27 is outside New Year range",
+        !I.isDateInRange(new Date(2026, 11, 27), newYearRange)
+      );
+
+      // Spring: Mar 20 - Apr 10 (cross-month, same year)
+      var springRange = { start: [3, 20], end: [4, 10] };
+
+      assert(
+        "Mar 25 is within Spring range",
+        I.isDateInRange(new Date(2026, 2, 25), springRange)
+      );
+
+      assert(
+        "Apr 5 is within Spring range (cross-month)",
+        I.isDateInRange(new Date(2026, 3, 5), springRange)
+      );
+
+      assert(
+        "Apr 11 is outside Spring range",
+        !I.isDateInRange(new Date(2026, 3, 11), springRange)
+      );
+
+      // ── detectEvent ────────────────────────────────────────────
+
+      suite("detectEvent");
+
+      assertEqual(
+        "forceEvent='valentine' returns valentine",
+        I.detectEvent({ forceEvent: "valentine", language: "en" }).id,
+        "valentine"
+      );
+
+      assertEqual(
+        "forceEvent='generic' returns generic",
+        I.detectEvent({ forceEvent: "generic", language: "en" }).id,
+        "generic"
+      );
+
+      assertEqual(
+        "forceEvent='nonexistent' falls back to auto-detection",
+        I.detectEvent({ forceEvent: "nonexistent", language: "en" }).id !== undefined,
+        true
+      );
+
+      assertEqual(
+        "forceEvent=null uses auto-detection",
+        I.detectEvent({ forceEvent: null, language: "en" }).id !== undefined,
+        true
+      );
+
+      // ── getConfig ──────────────────────────────────────────────
+
+      suite("getConfig");
+
+      var config = I.getConfig();
+
+      assertEqual(
+        "reads yourName from config.js",
+        config.yourName,
+        "Romeo"
+      );
+
+      assertEqual(
+        "reads partnerName from config.js",
+        config.partnerName,
+        "Giulietta"
+      );
+
+      assertEqual(
+        "reads language from config.js",
+        config.language,
+        "en"
+      );
+
+      assert(
+        "showFooter defaults to true",
+        config.showFooter === true
+      );
+
+      // Test fallback: temporarily break config
+      var originalConfig = window.LOVEPAGE_CONFIG;
+      window.LOVEPAGE_CONFIG = null;
+      var fallbackConfig = I.getConfig();
+
+      assertEqual(
+        "null config falls back to default yourName",
+        fallbackConfig.yourName,
+        "Someone"
+      );
+
+      assertEqual(
+        "null config falls back to default language",
+        fallbackConfig.language,
+        "en"
+      );
+
+      // Test invalid language fallback
+      window.LOVEPAGE_CONFIG = { language: "xx" };
+      var invalidLangConfig = I.getConfig();
+
+      assertEqual(
+        "unsupported language falls back to 'en'",
+        invalidLangConfig.language,
+        "en"
+      );
+
+      // Restore original config
+      window.LOVEPAGE_CONFIG = originalConfig;
+
+      // ── EVENTS data integrity ──────────────────────────────────
+
+      suite("EVENTS data integrity");
+
+      assertEqual(
+        "9 events defined (8 seasonal + generic)",
+        I.EVENTS.length + 1,
+        9
+      );
+
+      I.EVENTS.forEach(function (event) {
+        assert(
+          event.id + " has EN question",
+          typeof event.question.en === "string" && event.question.en.length > 0
+        );
+
+        assert(
+          event.id + " has IT question",
+          typeof event.question.it === "string" && event.question.it.length > 0
+        );
+
+        assert(
+          event.id + " has valid dateRange",
+          event.dateRange &&
+          Array.isArray(event.dateRange.start) &&
+          Array.isArray(event.dateRange.end) &&
+          event.dateRange.start.length === 2 &&
+          event.dateRange.end.length === 2
+        );
+
+        assert(
+          event.id + " has theme with all required colors",
+          event.theme.primary && event.theme.secondary &&
+          event.theme.background && event.theme.accent &&
+          event.theme.text && event.theme.textLight
+        );
+
+        assert(
+          event.id + " has particles type",
+          typeof event.particles === "string"
+        );
+      });
+
+      assert(
+        "generic event has EN question",
+        typeof I.GENERIC_EVENT.question.en === "string"
+      );
+
+      assert(
+        "generic event has IT question",
+        typeof I.GENERIC_EVENT.question.it === "string"
+      );
+
+      assert(
+        "generic event has theme",
+        I.GENERIC_EVENT.theme.primary !== undefined
+      );
+
+      // ── TRANSLATIONS completeness ──────────────────────────────
+
+      suite("TRANSLATIONS completeness");
+
+      var enKeys = Object.keys(I.TRANSLATIONS.en);
+      var itKeys = Object.keys(I.TRANSLATIONS.it);
+
+      assertEqual(
+        "EN and IT have same number of keys",
+        enKeys.length,
+        itKeys.length
+      );
+
+      enKeys.forEach(function (key) {
+        assert(
+          "IT has translation for '" + key + "'",
+          I.TRANSLATIONS.it[key] !== undefined
+        );
+      });
+
+      // ── THEME_OVERRIDES ────────────────────────────────────────
+
+      suite("THEME_OVERRIDES");
+
+      ["dark", "light", "pastel"].forEach(function (name) {
+        assert(
+          name + " override exists",
+          I.THEME_OVERRIDES[name] !== undefined
+        );
+
+        assert(
+          name + " has background",
+          typeof I.THEME_OVERRIDES[name].background === "string"
+        );
+
+        assert(
+          name + " has text",
+          typeof I.THEME_OVERRIDES[name].text === "string"
+        );
+      });
+
+      // ── Summary ────────────────────────────────────────────────
+
+      var summary = document.createElement("div");
+      summary.className = "summary";
+      if (failed === 0) {
+        summary.innerHTML = '<span class="pass">ALL ' + passed + ' TESTS PASSED</span>';
+      } else {
+        summary.innerHTML =
+          '<span class="fail">' + failed + ' FAILED</span> / ' +
+          '<span class="pass">' + passed + ' PASSED</span> / ' +
+          (passed + failed) + ' TOTAL';
+      }
+      results.appendChild(summary);
+
+      // Set title for Playwright/CI parsing
+      document.title = failed === 0
+        ? "PASS (" + passed + " tests)"
+        : "FAIL (" + failed + " failures)";
+    })();
+  </script>
+</body>
+</html>
