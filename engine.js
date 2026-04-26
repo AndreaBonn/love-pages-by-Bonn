@@ -336,7 +336,8 @@
   // ── i18n Helper ──────────────────────────────────────────────────
 
   function t(key, lang, replacements) {
-    var str = TRANSLATIONS[lang][key] || TRANSLATIONS.en[key] || key;
+    var langTable = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    var str = langTable[key] || TRANSLATIONS.en[key] || key;
     if (replacements) {
       for (var k in replacements) {
         str = str.replace("{" + k + "}", replacements[k]);
@@ -762,10 +763,13 @@
     GENERIC_EVENT: GENERIC_EVENT,
     TRANSLATIONS: TRANSLATIONS,
     THEME_OVERRIDES: THEME_OVERRIDES,
+    PARTICLE_MAP: PARTICLE_MAP,
     isDateInRange: isDateInRange,
     detectEvent: detectEvent,
     getConfig: getConfig,
     escapeHTML: escapeHTML,
+    t: t,
+    getParticleEmojis: getParticleEmojis,
   };
 
   if (document.readyState === "loading") {
